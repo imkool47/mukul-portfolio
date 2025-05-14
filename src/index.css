@@ -1,68 +1,221 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
+@layer base {
+  /* Dracula Theme (Default) */
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    --background: 231 15% 18%;
+    --foreground: 60 30% 96%;
+
+    --card: 231 15% 18%;
+    --card-foreground: 60 30% 96%;
+
+    --popover: 231 15% 18%;
+    --popover-foreground: 60 30% 96%;
+
+    --primary: 326 100% 74%;
+    --primary-foreground: 60 30% 96%;
+
+    --secondary: 231 15% 24%;
+    --secondary-foreground: 60 30% 96%;
+
+    --muted: 231 15% 24%;
+    --muted-foreground: 60 30% 74%;
+
+    --accent: 231 15% 24%;
+    --accent-foreground: 60 30% 96%;
+
+    --destructive: 0 100% 67%;
+    --destructive-foreground: 60 30% 96%;
+
+    --border: 231 15% 24%;
+    --input: 231 15% 24%;
+    --ring: 326 100% 74%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 231 15% 15%;
+    --sidebar-foreground: 60 30% 96%;
+    --sidebar-primary: 326 100% 74%;
+    --sidebar-primary-foreground: 60 30% 96%;
+    --sidebar-accent: 231 15% 20%;
+    --sidebar-accent-foreground: 60 30% 96%;
+    --sidebar-border: 231 15% 20%;
+    --sidebar-ring: 326 100% 74%;
   }
-  a:hover {
-    color: #747bff;
+
+  /* Nord Theme */
+  .nord-theme {
+    --background: 220 16% 22%;
+    --foreground: 219 28% 88%;
+
+    --card: 220 16% 22%;
+    --card-foreground: 219 28% 88%;
+
+    --popover: 220 16% 22%;
+    --popover-foreground: 219 28% 88%;
+
+    --primary: 213 32% 63%;
+    --primary-foreground: 219 28% 88%;
+
+    --secondary: 220 16% 28%;
+    --secondary-foreground: 219 28% 88%;
+
+    --muted: 220 16% 28%;
+    --muted-foreground: 219 28% 76%;
+
+    --accent: 220 16% 28%;
+    --accent-foreground: 219 28% 88%;
+
+    --destructive: 354 42% 56%;
+    --destructive-foreground: 219 28% 88%;
+
+    --border: 220 16% 28%;
+    --input: 220 16% 28%;
+    --ring: 213 32% 63%;
+
+    --sidebar-background: 220 16% 19%;
+    --sidebar-foreground: 219 28% 88%;
+    --sidebar-primary: 213 32% 63%;
+    --sidebar-primary-foreground: 219 28% 88%;
+    --sidebar-accent: 220 16% 24%;
+    --sidebar-accent-foreground: 219 28% 88%;
+    --sidebar-border: 220 16% 24%;
+    --sidebar-ring: 213 32% 63%;
   }
-  button {
-    background-color: #f9f9f9;
+
+  /* Monokai Theme */
+  .monokai-theme {
+    --background: 70 8% 15%;
+    --foreground: 60 30% 96%;
+
+    --card: 70 8% 15%;
+    --card-foreground: 60 30% 96%;
+
+    --popover: 70 8% 15%;
+    --popover-foreground: 60 30% 96%;
+
+    --primary: 331 92% 70%;
+    --primary-foreground: 60 30% 96%;
+
+    --secondary: 70 8% 20%;
+    --secondary-foreground: 60 30% 96%;
+
+    --muted: 70 8% 20%;
+    --muted-foreground: 50 11% 41%;
+
+    --accent: 70 8% 20%;
+    --accent-foreground: 60 30% 96%;
+
+    --destructive: 0 86% 60%;
+    --destructive-foreground: 60 30% 96%;
+
+    --border: 70 8% 20%;
+    --input: 70 8% 20%;
+    --ring: 331 92% 70%;
+
+    --sidebar-background: 70 8% 12%;
+    --sidebar-foreground: 60 30% 96%;
+    --sidebar-primary: 331 92% 70%;
+    --sidebar-primary-foreground: 60 30% 96%;
+    --sidebar-accent: 70 8% 17%;
+    --sidebar-accent-foreground: 60 30% 96%;
+    --sidebar-border: 70 8% 17%;
+    --sidebar-ring: 331 92% 70%;
+  }
+
+  /* Catppuccin Theme */
+  .catppuccin-theme {
+    --background: 240 21% 15%;
+    --foreground: 227 100% 87%;
+
+    --card: 240 21% 15%;
+    --card-foreground: 227 100% 87%;
+
+    --popover: 240 21% 15%;
+    --popover-foreground: 227 100% 87%;
+
+    --primary: 267 84% 81%;
+    --primary-foreground: 227 100% 87%;
+
+    --secondary: 240 21% 20%;
+    --secondary-foreground: 227 100% 87%;
+
+    --muted: 240 21% 20%;
+    --muted-foreground: 233 12% 53%;
+
+    --accent: 240 21% 20%;
+    --accent-foreground: 227 100% 87%;
+
+    --destructive: 343 81% 75%;
+    --destructive-foreground: 227 100% 87%;
+
+    --border: 240 21% 20%;
+    --input: 240 21% 20%;
+    --ring: 267 84% 81%;
+
+    --sidebar-background: 240 21% 12%;
+    --sidebar-foreground: 227 100% 87%;
+    --sidebar-primary: 267 84% 81%;
+    --sidebar-primary-foreground: 227 100% 87%;
+    --sidebar-accent: 240 21% 17%;
+    --sidebar-accent-foreground: 227 100% 87%;
+    --sidebar-border: 240 21% 17%;
+    --sidebar-ring: 267 84% 81%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .vscode-tab {
+    @apply flex items-center gap-2 px-4 py-2 text-sm font-medium border-b-2 border-transparent hover:bg-secondary transition-colors;
+  }
+
+  .vscode-tab.active {
+    @apply border-primary bg-background text-primary;
+  }
+  
+  .activity-bar-icon {
+    @apply flex items-center justify-center w-12 h-12 text-muted-foreground hover:text-foreground transition-colors;
+  }
+  
+  .activity-bar-icon.active {
+    @apply text-foreground border-l-2 border-primary;
+  }
+  
+  .explorer-item {
+    @apply flex items-center gap-2 px-2 py-1 text-sm rounded-sm cursor-pointer hover:bg-secondary transition-colors;
+  }
+  
+  .terminal-prompt::before {
+    content: "> ";
+    @apply text-primary;
+  }
+  
+  .code-line {
+    @apply flex;
+  }
+  
+  .code-line-number {
+    @apply text-muted-foreground w-6 inline-block text-right mr-3 select-none;
+  }
+
+  .theme-selector {
+    @apply p-2 rounded-md cursor-pointer transition-all hover:bg-secondary;
+  }
+  
+  .theme-selector.active {
+    @apply bg-secondary;
   }
 }
