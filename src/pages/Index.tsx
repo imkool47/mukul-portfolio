@@ -1,15 +1,31 @@
+
 import React, { useState, useEffect } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import VSCodeLayout from '../components/VSCodeLayout';
 import AboutSection from '../components/AboutSection';
 import ProjectsSection from '../components/ProjectsSection';
 import SkillsSection from '../components/SkillsSection';
 import ContactSection from '../components/ContactSection';
+import SettingsSection from '../components/SettingsSection';
+import ProfileSection from '../components/ProfileSection';
 import Terminal from '../components/Terminal';
-import TypedText from '../components/TypedText';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Index = () => {
   const [showTerminal, setShowTerminal] = useState(true);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('about');
+
+  useEffect(() => {
+    // Parse the URL query parameters
+    const params = new URLSearchParams(location.search);
+    const tab = params.get('tab');
+    
+    // If there's a valid tab in the URL, set it as active
+    if (tab && ['about', 'projects', 'skills', 'contact', 'terminal', 'settings', 'profile'].includes(tab)) {
+      setActiveTab(tab);
+    }
+  }, [location.search]);
 
   useEffect(() => {
     // Hide terminal after intro animation
@@ -19,6 +35,11 @@ const Index = () => {
     
     return () => clearTimeout(timer);
   }, []);
+
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    navigate(`/?tab=${value}`);
+  };
 
   return (
     <VSCodeLayout>
@@ -34,47 +55,25 @@ const Index = () => {
                 'Type "help" for available commands.'
               ]} 
             />
-            <TypedText 
-              text="Navigate through the tabs below to explore my portfolio..." 
-              className="text-lg text-primary mt-4"
-            />
           </div>
         </div>
       ) : (
-        <Tabs defaultValue="about" className="w-full">
-          <TabsList className="mb-6">
-            <TabsTrigger value="about">README.md</TabsTrigger>
-            <TabsTrigger value="projects">Projects</TabsTrigger>
-            <TabsTrigger value="skills">Skills</TabsTrigger>
-            <TabsTrigger value="contact">Contact</TabsTrigger>
-            <TabsTrigger value="terminal">Terminal</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="about">
-            <AboutSection />
-          </TabsContent>
-          
-          <TabsContent value="projects">
-            <ProjectsSection />
-          </TabsContent>
-          
-          <TabsContent value="skills">
-            <SkillsSection />
-          </TabsContent>
-          
-          <TabsContent value="contact">
-            <ContactSection />
-          </TabsContent>
-          
-          <TabsContent value="terminal">
+        <div>
+          {activeTab === 'about' && <AboutSection />}
+          {activeTab === 'projects' && <ProjectsSection />}
+          {activeTab === 'skills' && <SkillsSection />}
+          {activeTab === 'contact' && <ContactSection />}
+          {activeTab === 'profile' && <ProfileSection />}
+          {activeTab === 'terminal' && (
             <div className="max-w-2xl">
               <Terminal />
               <p className="text-sm text-muted-foreground mt-4">
-                Try commands like "help", "about", "skills", "projects", or "contact" to explore.
+                Try commands like "help", "about", "skills", "projects", "contact", "figlet" to explore.
               </p>
             </div>
-          </TabsContent>
-        </Tabs>
+          )}
+          {activeTab === 'settings' && <SettingsSection />}
+        </div>
       )}
     </VSCodeLayout>
   );

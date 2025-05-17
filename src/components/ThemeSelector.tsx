@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Palette } from 'lucide-react';
 import {
@@ -8,7 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useToast } from '@/components/ui/use-toast';
 
-type Theme = 'dracula' | 'nord' | 'monokai' | 'catppuccin';
+type Theme = 'dracula' | 'nord' | 'monokai' | 'catppuccin' | 'everfrost';
 
 interface ThemeOption {
   name: string;
@@ -20,7 +21,8 @@ const themeOptions: ThemeOption[] = [
   { name: 'Dracula', value: 'dracula', color: '#bd93f9' },
   { name: 'Nord', value: 'nord', color: '#81a1c1' },
   { name: 'Monokai', value: 'monokai', color: '#f92672' },
-  { name: 'Catppuccin', value: 'catppuccin', color: '#cba6f7' }
+  { name: 'Catppuccin', value: 'catppuccin', color: '#cba6f7' },
+  { name: 'Everfrost', value: 'everfrost', color: '#76e0f0' }
 ];
 
 const ThemeSelector: React.FC = () => {
@@ -35,8 +37,10 @@ const ThemeSelector: React.FC = () => {
   }, []);
 
   const applyTheme = (theme: Theme) => {
-    document.body.classList.remove('nord-theme', 'monokai-theme', 'catppuccin-theme');
+    // First remove all theme classes
+    document.body.classList.remove('nord-theme', 'monokai-theme', 'catppuccin-theme', 'everfrost-theme');
     
+    // Only add a theme class if it's not the default (dracula)
     if (theme !== 'dracula') {
       document.body.classList.add(`${theme}-theme`);
     }
