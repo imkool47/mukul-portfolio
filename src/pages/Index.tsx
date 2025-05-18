@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import VSCodeLayout from '../components/VSCodeLayout';
 import AboutSection from '../components/AboutSection';
@@ -42,7 +41,7 @@ const Index = () => {
   };
 
   return (
-    <VSCodeLayout>
+    <VSCodeLayout showSidebar={activeTab !== 'profile'}>
       {showTerminal ? (
         <div className="h-full flex flex-col justify-center items-center">
           <div className="max-w-xl w-full">
