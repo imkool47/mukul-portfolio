@@ -1,5 +1,5 @@
 import React, { ReactNode, useState, useEffect } from 'react';
-import { FileText, FolderOpen, LayoutDashboard, Settings, Terminal as TerminalIcon, Search, Code, X, RefreshCw, ChevronDown, ChevronUp, FileCode, Package, Palette, UserRound } from 'lucide-react';
+import { FileText, FolderOpen, LayoutDashboard, Settings, Terminal as TerminalIcon, Code, X, RefreshCw, ChevronDown, ChevronUp, FileCode, Package, Palette, UserRound } from 'lucide-react';
 import ThemeSelector from './ThemeSelector';
 import { Separator } from '@/components/ui/separator';
 import { Command, CommandInput, CommandList, CommandGroup, CommandItem } from '@/components/ui/command';
@@ -20,6 +20,7 @@ import {
 
 interface VSCodeLayoutProps {
   children: ReactNode;
+  showSidebar?: boolean;
 }
 
 interface FileItem {
@@ -28,10 +29,10 @@ interface FileItem {
   tab: string;
 }
 
-const VSCodeLayout: React.FC<VSCodeLayoutProps> = ({ children }) => {
+const VSCodeLayout: React.FC<VSCodeLayoutProps> = ({ children, showSidebar = true }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [activeSection, setActiveSection] = useState<'explorer' | 'projects' | 'settings' | 'search' | 'profile'>('explorer');
+  const [activeSection, setActiveSection] = useState<'explorer' | 'projects' | 'settings' | 'profile'>('explorer');
   const [cmdOpen, setCmdOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [explorerCollapsed, setExplorerCollapsed] = useState(false);
@@ -41,6 +42,7 @@ const VSCodeLayout: React.FC<VSCodeLayoutProps> = ({ children }) => {
     "1 update available"
   ]);
   const [activeTab, setActiveTab] = useState("README.md");
+  const [terminalOutput, setTerminalOutput] = useState<string[]>([]);
 
   // Profile data from localStorage
   const displayName = localStorage.getItem('profile-name') || 'Test';
@@ -65,6 +67,11 @@ const VSCodeLayout: React.FC<VSCodeLayoutProps> = ({ children }) => {
     { name: "profile.md", icon: <FileText size={16} />, tab: "profile" },
   ];
 
+  // Update sidebarCollapsed when showSidebar changes
+  useEffect(() => {
+    setSidebarCollapsed(!showSidebar);
+  }, [showSidebar]);
+
   // Handle file click 
   const handleFileClick = (fileName: string, tab: string) => {
     setActiveTab(fileName);
@@ -85,6 +92,20 @@ const VSCodeLayout: React.FC<VSCodeLayoutProps> = ({ children }) => {
   // Navigate to terminal
   const navigateToTerminal = () => {
     navigate('/?tab=terminal');
+  };
+  
+  // Clear terminal function
+  const clearTerminal = () => {
+    setTerminalOutput([]);
+    console.log("Terminal cleared");
+    // If the user is on the terminal page, this will clear the visible terminal
+    if (location.search.includes('tab=terminal')) {
+      // Force a re-render of the terminal component
+      navigate('/?tab=about');
+      setTimeout(() => {
+        navigate('/?tab=terminal');
+      }, 10);
+    }
   };
 
   // Handle keyboard shortcuts
@@ -300,11 +321,8 @@ const VSCodeLayout: React.FC<VSCodeLayoutProps> = ({ children }) => {
                   <MenubarItem onSelect={() => navigateToTerminal()}>
                     New Terminal <MenubarShortcut>⇧⌘`</MenubarShortcut>
                   </MenubarItem>
-                  <MenubarItem>
-                    Split Terminal
-                  </MenubarItem>
                   <MenubarSeparator />
-                  <MenubarItem>
+                  <MenubarItem onSelect={() => clearTerminal()}>
                     Clear Terminal
                   </MenubarItem>
                 </MenubarContent>
@@ -313,15 +331,11 @@ const VSCodeLayout: React.FC<VSCodeLayoutProps> = ({ children }) => {
               <MenubarMenu>
                 <MenubarTrigger className="cursor-pointer hover:text-primary">Help</MenubarTrigger>
                 <MenubarContent>
-                  <MenubarItem>
-                    Documentation
+                  <MenubarItem onSelect={() => navigateToProfile()}>
+                    About
                   </MenubarItem>
                   <MenubarItem onSelect={() => setCmdOpen(true)}>
                     Command Palette... <MenubarShortcut>⇧⌘P</MenubarShortcut>
-                  </MenubarItem>
-                  <MenubarSeparator />
-                  <MenubarItem>
-                    About
                   </MenubarItem>
                 </MenubarContent>
               </MenubarMenu>
@@ -332,7 +346,7 @@ const VSCodeLayout: React.FC<VSCodeLayoutProps> = ({ children }) => {
           <Dialog open={cmdOpen} onOpenChange={setCmdOpen}>
             <DialogTrigger asChild>
               <Button variant="outline" size="sm" className="text-xs">
-                <Search size={14} className="mr-1" />
+                <Code size={14} className="mr-1" />
                 <span className="hidden sm:inline">Command Palette</span>
                 <span className="hidden sm:inline ml-2 opacity-60">Ctrl+Shift+P</span>
               </Button>
@@ -358,17 +372,7 @@ const VSCodeLayout: React.FC<VSCodeLayoutProps> = ({ children }) => {
             <TooltipContent side="right">Explorer</TooltipContent>
           </Tooltip>
           
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button 
-                className={`activity-bar-icon ${activeSection === 'search' ? 'active' : ''}`}
-                onClick={() => setActiveSection('search')}
-              >
-                <Search size={24} />
-              </button>
-            </TooltipTrigger>
-            <TooltipContent side="right">Search</TooltipContent>
-          </Tooltip>
+          {/* Removed Search icon */}
           
           <Tooltip>
             <TooltipTrigger asChild>
@@ -454,37 +458,6 @@ const VSCodeLayout: React.FC<VSCodeLayoutProps> = ({ children }) => {
                     ))}
                   </div>
                 )}
-              </div>
-            </div>
-          )}
-
-          {activeSection === 'search' && !sidebarCollapsed && (
-            <div>
-              <div className="px-4 py-2 uppercase text-xs font-semibold text-muted-foreground flex items-center justify-between">
-                <span>Search</span>
-                <Button variant="ghost" size="icon" className="h-5 w-5" onClick={() => setSidebarCollapsed(true)}>
-                  <X size={12} />
-                </Button>
-              </div>
-              <div className="p-2">
-                <input
-                  type="text"
-                  placeholder="Search in files..."
-                  className="w-full p-2 text-sm bg-secondary/30 border border-border rounded focus:outline-none focus:ring-1 focus:ring-primary"
-                />
-                <div className="flex items-center gap-2 mt-2">
-                  <Button size="sm" variant="secondary" className="text-xs">
-                    <Search size={12} className="mr-1" />
-                    Search
-                  </Button>
-                  <Button size="sm" variant="outline" className="text-xs">
-                    <RefreshCw size={12} className="mr-1" />
-                    Clear
-                  </Button>
-                </div>
-                <div className="mt-4 text-sm text-foreground">
-                  Type to search across all files
-                </div>
               </div>
             </div>
           )}

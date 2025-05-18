@@ -31,7 +31,7 @@ const databases = {
 const tools = {
   "Git": 90,
   "Docker": 75,
-  "AWS": 90,
+  "AWS": 70,
   "Figma": 80,
   "Jest": 85,
 };`;
@@ -68,7 +68,7 @@ const SkillsSection: React.FC = () => {
   const tools: SkillType = {
     "Git": 90,
     "Docker": 75,
-    "AWS": 90,
+    "AWS": 70,
     "Figma": 80,
     "Jest": 85,
   };
@@ -101,26 +101,28 @@ const SkillsSection: React.FC = () => {
         code={skillsCode}
       />
 
-      <Tabs defaultValue="frontend" className="mt-6">
-        <TabsList className="mb-4">
-          <TabsTrigger value="frontend">Frontend</TabsTrigger>
-          <TabsTrigger value="backend">Backend</TabsTrigger>
-          <TabsTrigger value="databases">Databases</TabsTrigger>
-          <TabsTrigger value="tools">Tools</TabsTrigger>
-        </TabsList>
-        <TabsContent value="frontend" className="space-y-4">
-          {renderSkills(frontend)}
-        </TabsContent>
-        <TabsContent value="backend" className="space-y-4">
-          {renderSkills(backend)}
-        </TabsContent>
-        <TabsContent value="databases" className="space-y-4">
-          {renderSkills(databases)}
-        </TabsContent>
-        <TabsContent value="tools" className="space-y-4">
-          {renderSkills(tools)}
-        </TabsContent>
-      </Tabs>
+      <div className="mt-6">
+        <Tabs defaultValue="frontend">
+          <TabsList className="mb-4">
+            <TabsTrigger value="frontend">Frontend</TabsTrigger>
+            <TabsTrigger value="backend">Backend</TabsTrigger>
+            <TabsTrigger value="databases">Databases</TabsTrigger>
+            <TabsTrigger value="tools">Tools</TabsTrigger>
+          </TabsList>
+          <TabsContent value="frontend" className="space-y-4">
+            {renderSkills(frontend)}
+          </TabsContent>
+          <TabsContent value="backend" className="space-y-4">
+            {renderSkills(backend)}
+          </TabsContent>
+          <TabsContent value="databases" className="space-y-4">
+            {renderSkills(databases)}
+          </TabsContent>
+          <TabsContent value="tools" className="space-y-4">
+            {renderSkills(tools)}
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 };
